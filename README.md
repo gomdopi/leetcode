@@ -1,0 +1,1 @@
+"export {}" in each typescript file is so it doesn't complain about duplicate filenames/methods
