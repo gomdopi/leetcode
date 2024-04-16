@@ -1,0 +1,11 @@
+{
+  "name": "leetcode",
+  "version": "1.0.0",
+  "description": "\"export {}\" in each typescript file is so it doesn't complain about duplicate filenames/methods",
+  "main": "index.js",
+  "scripts": {
+    "solution": "ts-node $INIT_CWD/solution.ts"
+  },
+  "author": "",
+  "license": "ISC"
+}
