@@ -1,17 +1,41 @@
 export {}
 
+// "brute-force"
+// function hIndex(citations: number[]): number {
+//   if (citations.length === 1 && citations[0] >= 1) return 1
+
+//   for (let i = citations.length; i >= 0; i--) {
+//     let count = 0
+
+//     for (let j = 0; j < citations.length; j++) {
+//       if (citations[j] >= i) {
+//         count++
+//       }
+//     }
+//     if (count >= i) return i
+//   }
+
+//   return 0
+// };
+
+
 function hIndex(citations: number[]): number {
-  if (citations.length === 1 && citations[0] >= 1) return 1
+  const n = citations.length
 
-  for (let i = citations.length; i >= 0; i--) {
-    let count = 0
+  if (n === 1 && citations[0] >= 1) return 1
 
-    for (let j = 0; j < citations.length; j++) {
-      if (citations[j] >= i) {
-        count++
-      }
-    }
+  let countArr: number[] = new Array(n + 1).fill(0)
+
+  for (let i = 0; i < n; i++) {
+    countArr[Math.min(citations[i], n)]++
+  }
+  
+  let i = n
+  let count = 0
+  while (i > 0) {
+    count += countArr[i]
     if (count >= i) return i
+    i--
   }
 
   return 0
