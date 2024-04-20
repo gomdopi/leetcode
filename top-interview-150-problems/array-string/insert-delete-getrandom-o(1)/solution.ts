@@ -1,12 +1,10 @@
 export {}
 
 class RandomizedSet {
-  map: Map<number, number>
-  array: Array<number>
+  private map: Map<number, number> = new Map()
+  private array: number[] = []
 
   constructor() {
-    this.map = new Map()
-    this.array = []
   }
 
   insert(val: number): boolean {
@@ -16,6 +14,7 @@ class RandomizedSet {
 
     this.map.set(val, this.array.length)
     this.array.push(val)
+
     return true
   }
 
@@ -23,9 +22,9 @@ class RandomizedSet {
     if (this.map.has(val)) {
       if (this.array[this.array.length - 1] !== val) {
         const removedIndex = this.map.get(val)
-        const movedNumber = this.array[this.array.length - 1]
-        this.array[removedIndex!] = movedNumber
-        this.map.set(movedNumber, removedIndex!)
+        const movedValue = this.array[this.array.length - 1]
+        this.array[removedIndex!] = movedValue
+        this.map.set(movedValue, removedIndex!)
       }
       this.array.pop()
       this.map.delete(val)
@@ -37,7 +36,7 @@ class RandomizedSet {
   }
 
   getRandom(): number {
-    return this.array[Math.floor(Math.random() * (this.array.length))]
+    return this.array[Math.floor(Math.random() * this.array.length)]
   }
 }
 
