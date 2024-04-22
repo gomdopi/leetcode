@@ -1,49 +1,74 @@
 export {}
 
-function candy(ratings: number[]): number {
-  let n = ratings.length
+// function candy(ratings: number[]): number {
+//   let n = ratings.length
 
-  if (n === 1) return 1
+//   if (n === 1) return 1
 
-  // initialize count of candies given
-  let candies: number[] = new Array(n).fill(1)
+//   // initialize count of candies given
+//   let candies: number[] = new Array(n).fill(1)
   
-  // iterate from second to last element
+//   // iterate from second to last element
+//   for (let i = 1; i < n; i++) {
+//     // if left neighbor is lower give 1 candy more than how much neighbor has
+//     if (ratings[i - 1] < ratings [i]) {
+//       candies[i] = candies[i - 1] + 1
+//     }
+//     // else if left neighbor is greater or equal give 1 candy
+//     else if (ratings[i - 1] >= ratings [i]) {
+//       candies[i] = 1
+      
+//       // if left neighbor is greater adjust accordingly
+//       if (ratings[i - 1] > ratings [i]) {
+//         let currentIndex = i
+//         while (currentIndex > 0 && ratings[currentIndex - 1] > ratings[currentIndex] && candies[currentIndex - 1] <= candies[currentIndex]) {
+//           candies[currentIndex - 1]++
+//           currentIndex--
+//         }
+//       }
+//     }
+//   }
+
+//   // give out correct candy amount to first child
+//   if (ratings[0] <= ratings[1]) {
+//     candies[0] = 1
+//   } else {
+//     candies[0] = candies [1] + 1
+//   }
+
+//   let candyCount = 0
+//   for (let i = 0; i < candies.length; i++) {
+//     candyCount += candies[i]
+//   }
+  
+//   return candyCount
+// };
+
+function candy(ratings: number[]): number {
+  const n = ratings.length
+  const candies = new Array(n).fill(1)
+
+  // left to right
   for (let i = 1; i < n; i++) {
-    // if left neighbor is lower give 1 candy more than how much neighbor has
-    if (ratings[i - 1] < ratings [i]) {
+    if (ratings[i] > ratings[i - 1]) {
       candies[i] = candies[i - 1] + 1
     }
-    // else if left neighbor is greater or equal give 1 candy
-    else if (ratings[i - 1] >= ratings [i]) {
-      candies[i] = 1
-      
-      // if left neighbor is greater adjust accordingly
-      if (ratings[i - 1] > ratings [i]) {
-        let currentIndex = i
-        while (currentIndex > 0 && ratings[currentIndex - 1] > ratings[currentIndex] && candies[currentIndex - 1] <= candies[currentIndex]) {
-          candies[currentIndex - 1]++
-          currentIndex--
-        }
-      }
+  }
+
+  // right to left
+  for (let i = n - 2; i >= 0; i--) {
+    if (ratings[i] > ratings[i + 1]) {
+      candies[i] = Math.max(candies[i], candies[i + 1] + 1)
     }
   }
 
-  // give out correct candy amount to first child
-  if (ratings[0] <= ratings[1]) {
-    candies[0] = 1
-  } else {
-    candies[0] = candies [1] + 1
+  let total = 0
+  for (let i = 0; i < n; i++) {
+    total += candies[i]
   }
 
-  let candyCount = 0
-  for (let i = 0; i < candies.length; i++) {
-    candyCount += candies[i]
-  }
-
-  console.log(candies)
-  return candyCount
-};
+  return total
+}
 
 let ratings = [1,0,2]
 console.log(candy(ratings))
