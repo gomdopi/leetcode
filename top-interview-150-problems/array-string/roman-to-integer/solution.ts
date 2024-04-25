@@ -11,7 +11,6 @@ const romanIntegerMap: Record<string, number> = {
 }
 
 function romanToInt(s: string): number {
-
   let total = 0
 
   // iterate char by char from the back
@@ -30,6 +29,12 @@ function romanToInt(s: string): number {
 
   return total
 };
+
+// use map and reduce
+// function romanToInt(s: string): number {
+//   const numbers: number[] = s.split('').map(c => romanIntegerMap[c])
+//   return numbers.reduce((sum, val, index) => val < numbers[index + 1] ? sum - val : sum + val, 0)
+// };
 
 let s = 'I'
 console.log(romanToInt(s))
