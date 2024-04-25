@@ -1,34 +1,23 @@
 export {}
 
-type RomanNumeral = 'I' | 'V' | 'X' | 'L' | 'C' | 'D' | 'M'
-
-function getIntegerValueOfRomanNumeral(c: RomanNumeral): number {
-  switch(c) {
-    case 'I':
-      return 1
-    case 'V':
-      return 5
-    case 'X':
-      return 10
-    case 'L':
-      return 50
-    case 'C':
-      return 100
-    case 'D':
-      return 500
-    case 'M':
-      return 1000
-  }
-}
-
 function romanToInt(s: string): number {
+  const romanIntegerMap: Record<string, number> = {
+    'I': 1,
+    'V': 5,
+    'X': 10,
+    'L': 50,
+    'C': 100,
+    'D': 500,
+    'M': 1000,
+  }
+
   let total = 0
 
   // iterate char by char from the back
   for (let i = s.length - 1; i >= 0; i--) {
-    let currentValue = getIntegerValueOfRomanNumeral(s[i] as RomanNumeral)
+    let currentValue = romanIntegerMap[s[i]]
     // if previous char was of a higher value
-    if (getIntegerValueOfRomanNumeral(s[i + 1] as RomanNumeral) > currentValue) {
+    if (romanIntegerMap[s[i + 1]] > currentValue) {
       // subtract from running total
       total -= currentValue
     }
