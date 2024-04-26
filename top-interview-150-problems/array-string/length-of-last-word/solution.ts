@@ -1,18 +1,10 @@
 export {}
 
 function lengthOfLastWord(s: string): number {
-  const words: string[] = s.split(' ')
+  let trimmedS = s.trimEnd()
+  let lastWordIdx = trimmedS.lastIndexOf(' ')
 
-  let lastWord = ''
-
-  for (let i = words.length - 1; i >= 0; i--) {
-    if (words[i] != '') {
-      lastWord = words[i]
-      break
-    }
-  }
-
-  return lastWord.length
+  return trimmedS.length - lastWordIdx - 1
 };
 
 let s = "Hello World"
