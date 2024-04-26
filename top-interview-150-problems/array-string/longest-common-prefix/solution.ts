@@ -1,29 +1,16 @@
 export {}
 
 function longestCommonPrefix(strs: string[]): string {
-  if (strs.length === 1) return strs[0]
-  
-  for (let i = strs[0].length; i > 0; i--) {
-    let subStr = strs[0].substring(0, i)
-    
-    if (strs[1].startsWith(subStr)) {
-      let currentIdx = 2
-      let count = 2
+  let prefix = strs[0]
 
-      while (count <= strs.length) {
-        if (count === strs.length) {
-          return subStr
-        } else if (strs[currentIdx++].startsWith(subStr)) {
-          count++
-          continue
-        } else {
-          break
-        }
-      }
+  for (let i = 1; i < strs.length; i++) {
+    while (!strs[i].startsWith(prefix)) {
+      prefix = prefix.substring(0, prefix.length - 1)
+      if (prefix.length === 0) return ''
     }
   }
 
-  return ''
+  return prefix
 };
 
 let strs = ["flower","flow","flight"]
