@@ -13,19 +13,17 @@ const romanIntegerMap: Record<string, number> = {
 function romanToInt(s: string): number {
   let total = 0
 
-  // iterate char by char from the back
-  for (let i = s.length - 1; i >= 0; i--) {
+  for (let i = s.length - 2; i >= 0; i--) {
     let currentValue = romanIntegerMap[s[i]]
-    // if previous char was of a higher value
-    if (romanIntegerMap[s[i + 1]] > currentValue) {
-      // subtract from running total
+
+    if (currentValue < romanIntegerMap[s[i + 1]]) {
       total -= currentValue
-    }
-    // else add to running total
-    else {
+    } else {
       total += currentValue
     }
   }
+
+  total += romanIntegerMap[s[s.length - 1]]
 
   return total
 };
