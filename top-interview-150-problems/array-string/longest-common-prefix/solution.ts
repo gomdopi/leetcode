@@ -3,10 +3,15 @@ export {}
 function longestCommonPrefix(strs: string[]): string {
   let prefix = strs[0]
 
+  // iterate through strs
   for (let i = 1; i < strs.length; i++) {
+    // while word does not start with prefix cut last char from prefix
     while (!strs[i].startsWith(prefix)) {
       prefix = prefix.substring(0, prefix.length - 1)
-      if (prefix.length === 0) return ''
+      // if we ever get to a point where prefix length is 0 then there is no common prefix
+      if (prefix.length === 0) {
+        return ''
+      }
     }
   }
 
