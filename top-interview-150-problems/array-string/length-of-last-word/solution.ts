@@ -1,10 +1,12 @@
 export {}
 
 function lengthOfLastWord(s: string): number {
-  let trimmedS = s.trimEnd()
-  let lastWordIdx = trimmedS.lastIndexOf(' ')
+  // trim the end of the string
+  let trimmedString = s.trimEnd()
 
-  return trimmedS.length - lastWordIdx - 1
+  // return the remaining length after finding the index of the last ' ' char
+  // extra 1 subtracted to account for that arrays are 0-indexed
+  return trimmedString.length - (trimmedString.lastIndexOf(' ') + 1)
 };
 
 let s = "Hello World"
