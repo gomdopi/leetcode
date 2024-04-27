@@ -1,10 +1,7 @@
 export {}
 
 function reverseWords(s: string): string {
-  const sArr = s.split(' ')
-  const onlyWords = sArr.filter(w => w.length > 0)
-
-  return onlyWords.reverse().join(' ')
+  return s.split(' ').filter(w => w).reverse().join(' ')
 };
 
 let s = "the sky is blue"
