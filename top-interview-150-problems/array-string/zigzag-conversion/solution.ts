@@ -3,28 +3,32 @@ export {}
 function convert(s: string, numRows: number): string {
   if (numRows === 1 || numRows >= s.length) return s
 
+  // need vars to keep track of what row we are on, what step to take, and the array that holds the string
   let row = 0
   let step = 1
-  const converted: string[] = new Array(numRows).fill('')
+  const convertedStringArr: string[] = new Array(numRows).fill('')
 
-  for (let i = 0; i < s.length; i++) {
-    // add character to its correct row
-    converted[row] += s[i]
-
-    // take a step up/down to next row
+  // iterate through the string
+  for (const c of s) {
+    // and add the chars in zigzag order
+    convertedStringArr[row] += c
+    // update the row we are on
     row += step
 
-    // if we have reached the top row set step to +1
+    // if we are at the top
     if (row === 0) {
+      // update step to start going down the rows
       step = 1
     }
-    // if we have reached the bottom row set step to -1
+    // if we are at the bottom
     else if (row === numRows - 1) {
+      // update step to start going up the rows
       step = -1
     }
   }
 
-  return converted.join('')
+  // join converted string array and return the converted string
+  return convertedStringArr.join('')
 }
 
 let s = 'PAYPALISHIRINGA'
