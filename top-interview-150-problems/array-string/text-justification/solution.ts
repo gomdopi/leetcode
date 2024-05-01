@@ -1,86 +1,87 @@
 export {}
 
 function fullJustify(words: string[], maxWidth: number): string[] {
-  const ans: string[] = []
+  // declare tracking vars
+  let result: string[] = [] // result that will be returned
+  let currentString = '' // string representing words going in current line
+  let i = 0 // idx of current word being processed
+  let n = words.length
+  let x = 0 // idx of starting word for current line
 
-  if (maxWidth === 1) {
-    for (const word of words) {
-      for (const char of word) {
-        ans.push(char)
+  // while there are words left to process
+  while (i < n) {
+    // if current string + next word = maxWidth
+    if ((currentString + words[i]).length === maxWidth) {
+      // add word to current string and push current string to result and increment main idx
+      currentString += words[i++]
+      result.push(currentString)
+      // reset current string to empty string
+      currentString = ''
+      // set starting word idx to main idx
+      x = i
+    }
+    // else if current string + next word > maxWidth
+    else if ((currentString + words[i]).length > maxWidth) {
+      // set temp tracking idx to idx tracking starting word, new var count to track how many spaces required
+      let j = x
+      let count = maxWidth - (currentString.length - 1)
+      // while count > 0 and temp tracking idx is less than idx of last word to fit in line
+      while (count > 0 && j < i - 1) {
+        // add one space to end of word at temp tracking idx
+        words[j++] += ' '
+        // decrement count
+        count--
+        // if temp tracking idx is equal to last word to fit in line and count > 0
+        if (j === i - 1 && count > 0) {
+          // reset temp tracking idx to idx tracking starting word
+          j = x
+        }
       }
+      // new var tempStr to build string that will be pushed to result
+      let tempStr = ''
+      // set temp tracking idx back to starting word idx
+      j = x
+      // while temp tracking idx < main idx
+      while (j < i) {
+        // concat word at temp tracking idx to tempStr; add space at the end of the concat if NOT last word in line
+        tempStr += j < i - 1 ? words[j++] + ' ' : words[j++]
+      }
+      // while tempStr length < maxWidth
+      while (tempStr.length < maxWidth) {
+        // add spaces at the end
+        tempStr += ' '
+      }
+      // push temp string to result
+      result.push(tempStr)
+      // reset current string
+      currentString = ''
+      // set starting word idx to main idx
+      x = i
     }
-
-    return ans
-  }
-
-  // figure out what words go in each line
-  // while there are words left in "words"
-  while (words.length > 0) {
-    // get current word
-    let currentWord = words.shift()
-
-    // if current word can fit in current line
-    const currentLineLength = ans[ans.length - 1]?.length
-    if (currentLineLength + currentWord!.length + 1 <= maxWidth) {
-      ans[ans.length - 1] +=
-        currentLineLength === 0 ? currentWord : ` ${currentWord}`
-    }
-    // else move to next line
+    // else
     else {
-      ans.push(currentWord!)
+      // add word at main idx with a space at the end to current string
+      currentString += words[i++] + ' '
     }
   }
 
-  // handle the "justification"
-  // for each "line" in "ans"
-  for (let i = 0; i < ans.length - 1; i++) {
-    // figure out how many extra spaces are required
-    let currentWords = ans[i].split(' ')
-    let numberOfWords = currentWords.length
-    let totalSpacesRequired = maxWidth - ans[i].length + numberOfWords - 1
-
-    // add extra spaces in between words going from left to right
-    // if there is only one word
-    if (numberOfWords === 1) {
-      // add spaces at the end
-      ans[i] += ' '.repeat(totalSpacesRequired)
+  // if current string still has word(s); think last line wasn't filled
+  if (currentString.length > 0) {
+    // let count = maxWidth - length of current string
+    let count = maxWidth - currentString.length
+    // while count > 0
+    while (count > 0) {
+      // add spaces to the end; left justify
+      currentString += ' '
+      // decrement count
+      count--
     }
-    // else if there are two words
-    else if (numberOfWords === 2) {
-      // add spaces in between
-      ans[i] =
-        currentWords[0] + ' '.repeat(totalSpacesRequired) + currentWords[1]
-    } else {
-      // if extra spaces can be divided evenly
-      if (totalSpacesRequired % (numberOfWords - 1) === 0) {
-        let spacesPer = totalSpacesRequired / (numberOfWords - 1)
-        ans[i] = currentWords[0]
-        for (let j = 1; j < currentWords.length; j++) {
-          ans[i] += ' '.repeat(spacesPer) + currentWords[j]
-        }
-      } else {
-        let remainingSpaces = totalSpacesRequired
-        ans[i] = currentWords[0]
-        let spaceDistribution = new Array(currentWords.length - 1).fill(0)
-        while (remainingSpaces > 0) {
-          for (let k = 0; k < spaceDistribution.length; k++) {
-            spaceDistribution[k]++
-            remainingSpaces--
-            if (remainingSpaces === 0) break
-          }
-        }
-        for (let h = 0; h < spaceDistribution.length; h++) {
-          ans[i] += ' '.repeat(spaceDistribution[h]) + currentWords[h + 1]
-        }
-      }
-    }
+    // push last line to result
+    result.push(currentString)
   }
 
-  // handle last line
-  let totalSpacesRequired = maxWidth - ans[ans.length - 1].length
-  ans[ans.length - 1] += ' '.repeat(totalSpacesRequired)
-
-  return ans
+  // return result
+  return result
 }
 
 let words = ['This', 'is', 'an', 'example', 'of', 'text', 'justification.']
