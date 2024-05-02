@@ -36,22 +36,14 @@ function isSameTree(p: TreeNode | null, q: TreeNode | null): boolean {
   return true
 }
 
-let p = new TreeNode(
-  1,
-  new TreeNode(2, null, null),
-  new TreeNode(3, null, null)
-)
-let q = new TreeNode(
-  1,
-  new TreeNode(2, null, null),
-  new TreeNode(3, null, null)
-)
+let p = new TreeNode(1, new TreeNode(2), new TreeNode(3))
+let q = new TreeNode(1, new TreeNode(2), new TreeNode(3))
 console.log(isSameTree(p, q))
 
-p = new TreeNode(1, new TreeNode(2, null, null), null)
-q = new TreeNode(1, null, new TreeNode(2, null, null))
+p = new TreeNode(1, new TreeNode(2), null)
+q = new TreeNode(1, null, new TreeNode(2))
 console.log(isSameTree(p, q))
 
-p = new TreeNode(1, new TreeNode(2, null, null), new TreeNode(1, null, null))
-q = new TreeNode(1, new TreeNode(1, null, null), new TreeNode(2, null, null))
+p = new TreeNode(1, new TreeNode(2), new TreeNode(1))
+q = new TreeNode(1, new TreeNode(1), new TreeNode(2))
 console.log(isSameTree(p, q))
