@@ -18,7 +18,26 @@ function maxDepth(root: TreeNode | null): number {
     return 0
   }
 
+  // recursive
   return DFS(root, 0)
+
+  // // iterative
+  // const stack = [{ node: root, level: 1 }]
+  // let depth = 0
+
+  // while (stack.length > 0) {
+  //   const { node, level } = stack.pop()
+  //   depth = Math.max(depth, level)
+
+  //   if (node.left) {
+  //     stack.push({ node: node.left, level: level + 1 })
+  //   }
+  //   if (node.right) {
+  //     stack.push({ node: node.right, level: level + 1 })
+  //   }
+  // }
+
+  // return depth
 }
 
 function DFS(root: TreeNode | null, count: number): number {
@@ -33,7 +52,6 @@ function DFS(root: TreeNode | null, count: number): number {
   return Math.max(DFS(root.left, count), DFS(root.right, count))
 }
 
-let rootArr = [3, 9, 20, null, null, 15, 7]
 let root = new TreeNode(
   3,
   new TreeNode(9, null, null),
