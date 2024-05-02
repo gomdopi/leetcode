@@ -2,85 +2,67 @@ export {}
 
 function fullJustify(words: string[], maxWidth: number): string[] {
   // declare tracking vars
-  let result: string[] = [] // result that will be returned
-  let currentString = '' // string representing words going in current line
-  let i = 0 // idx of current word being processed
-  let n = words.length
-  let x = 0 // idx of starting word for current line
+  let result: string[] = [] // result of text justification
+  let currentString = '' // string for current line
+  let i = 0 // main idx tracking current word being processed
+  let n = words.length // number of words to process
+  let x = 0 // idx tracking starting word of current line
 
   // while there are words left to process
   while (i < n) {
-    // if current string + next word = maxWidth
+    // if adding current word exactly fits "maxWidth"
     if ((currentString + words[i]).length === maxWidth) {
-      // add word to current string and push current string to result and increment main idx
+      // add current word to "currentString" and push to "result" then update "x" and reset "currentString"
       currentString += words[i++]
       result.push(currentString)
-      // reset current string to empty string
       currentString = ''
-      // set starting word idx to main idx
       x = i
     }
-    // else if current string + next word > maxWidth
+    // else if adding current word would exceed "maxWidth"
     else if ((currentString + words[i]).length > maxWidth) {
-      // set temp tracking idx to idx tracking starting word, new var count to track how many spaces required
-      let j = x
-      let count = maxWidth - (currentString.length - 1)
-      // while count > 0 and temp tracking idx is less than idx of last word to fit in line
-      while (count > 0 && j < i - 1) {
-        // add one space to end of word at temp tracking idx
+      // handle space distribution and current line of words to "result"
+      let j = x // set new idx to idx of starting word for current line
+      let count = maxWidth - (currentString.length - 1) // minus one for the last dangling space
+      // distribute spaces evenly from left to right; only words that aren't last should get spaces
+      while (j < i - 1 && count > 0) {
         words[j++] += ' '
-        // decrement count
         count--
-        // if temp tracking idx is equal to last word to fit in line and count > 0
+        // if j is last word of current line but we still have spaces to add reset j to starting word
         if (j === i - 1 && count > 0) {
-          // reset temp tracking idx to idx tracking starting word
           j = x
         }
       }
-      // new var tempStr to build string that will be pushed to result
-      let tempStr = ''
-      // set temp tracking idx back to starting word idx
+      // add words with added spaces to "tempStr" starting from starting word of current line
+      let tempString = ''
       j = x
-      // while temp tracking idx < main idx
       while (j < i) {
-        // concat word at temp tracking idx to tempStr; add space at the end of the concat if NOT last word in line
-        tempStr += j < i - 1 ? words[j++] + ' ' : words[j++]
+        tempString += j < i - 1 ? words[j++] + ' ' : words[j++]
       }
-      // while tempStr length < maxWidth
-      while (tempStr.length < maxWidth) {
-        // add spaces at the end
-        tempStr += ' '
+      // in case of only one word in current line
+      while (tempString.length < maxWidth) {
+        tempString += ' '
       }
-      // push temp string to result
-      result.push(tempStr)
-      // reset current string
+      // push to "result" and update/reset relevant vars
+      result.push(tempString)
       currentString = ''
-      // set starting word idx to main idx
       x = i
     }
-    // else
+    // else word can fit in current line so simply add to "currentString"
     else {
-      // add word at main idx with a space at the end to current string
       currentString += words[i++] + ' '
     }
   }
 
-  // if current string still has word(s); think last line wasn't filled
+  // process last line if needed
   if (currentString.length > 0) {
-    // let count = maxWidth - length of current string
     let count = maxWidth - currentString.length
-    // while count > 0
     while (count > 0) {
-      // add spaces to the end; left justify
       currentString += ' '
-      // decrement count
       count--
     }
-    // push last line to result
     result.push(currentString)
   }
 
-  // return result
   return result
 }
 
