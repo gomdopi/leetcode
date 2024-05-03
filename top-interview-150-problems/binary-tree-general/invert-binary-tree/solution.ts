@@ -4,10 +4,13 @@ function invertTree(root: TreeNode | null): TreeNode | null {
   if (!root) return null
 
   // // recursive
+  // if (!root.left && !root.right) return root
   // const tempL = root.left
   // const tempR = root.right
-  // root.left = invertTree(tempR)
-  // root.right = invertTree(tempL)
+  // root.left = tempR
+  // root.right = tempL
+  // invertTree(root.left)
+  // invertTree(root.right)
 
   // return root
 
@@ -17,16 +20,17 @@ function invertTree(root: TreeNode | null): TreeNode | null {
   while (stack.length > 0) {
     const node = stack.pop()
 
-    // if (!node || (!node.left && !node.right) || (node.left.val === node.right.val)) continue
-
     if (!node) continue
+    if (!node.left && !node.right) continue
 
     const tempL = node.left
     const tempR = node.right
+
     node.left = tempR
     node.right = tempL
-    if (tempL) stack.push(tempL)
-    if (tempR) stack.push(tempR)
+
+    stack.push(node.left)
+    stack.push(node.right)
   }
 
   return root
