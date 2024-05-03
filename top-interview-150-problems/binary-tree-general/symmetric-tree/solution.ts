@@ -4,27 +4,14 @@ function isSymmetric(root: TreeNode | null): boolean {
   if (!root) return true
 
   // recursive
-  return isSameTree(root.left, invertTree(root.right))
+  return isMirror(root.left, root.right)
 }
 
-function invertTree(root: TreeNode | null): TreeNode | null {
-  if (!root) return root
-
-  const tempL = root.left
-  const tempR = root.right
-  root.left = tempR
-  root.right = tempL
-  invertTree(root.left)
-  invertTree(root.right)
-
-  return root
-}
-
-function isSameTree(p: TreeNode | null, q: TreeNode | null): boolean {
+function isMirror(p: TreeNode | null, q: TreeNode | null): boolean {
   if (!p && !q) return true
   if (!p || !q || p.val != q.val) return false
 
-  return isSameTree(p.left, q.left) && isSameTree(p.right, q.right)
+  return isMirror(p.left, q.right) && isMirror(p.right, q.left)
 }
 
 let root = new TreeNode(
