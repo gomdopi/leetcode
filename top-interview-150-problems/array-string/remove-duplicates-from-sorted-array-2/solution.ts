@@ -1,33 +1,43 @@
 export {}
 
 function removeDuplicates(nums: number[]): number {
-  if (nums.length === 1) return 1
-  
-  let i = 1
+  let i = 0 // idx tracking last unique number
+  let j = 1 // idx tracking nums
+  let numSeen = false
 
-  let mostRecentUniqueNum = nums[0]
-  let duplicateEncountered = false
-
-  for (let j = 1; j < nums.length;) {
-    if (nums[j] === mostRecentUniqueNum) {  // if duplicate
-      if (!duplicateEncountered) {  // if first duplicate set duplicateEncountered = true and advance i and j
-        duplicateEncountered = true
-        nums[i++] = nums[j++]
-      } else {  // if second+ duplicate advance j until different number
-        while (nums[j] === mostRecentUniqueNum) {
-          nums[j++] = mostRecentUniqueNum
-        }
+  // iterate through nums and replace value at "i" with value at "j" when a diff number encountered
+  while (j < nums.length) {
+    if (nums[i] === nums[j]) {
+      if (!numSeen) {
+        nums[++i] = nums[j]
+        numSeen = true
       }
-    } else {  // set nums[i] = nums[j] and advance i and j and set duplicateEncountered = false
-      mostRecentUniqueNum = nums[j++]
-      nums[i++] = mostRecentUniqueNum
-      duplicateEncountered = false
+      j++
+    } else {
+      nums[++i] = nums[j++]
+      numSeen = false
     }
   }
-  
-  return i
-};
 
-let nums = [-1,-1,-1,0,1,1,1,1,2,2,2]
+  return i + 1
+}
 
-console.dir(removeDuplicates(nums))
+let nums = [-1, -1, -1, 0, 1, 1, 1, 1, 2, 2, 2]
+
+console.log(removeDuplicates(nums))
+console.log(nums)
+
+nums = [0, 0, 1, 1, 1, 1, 2, 3, 3]
+
+console.log(removeDuplicates(nums))
+console.log(nums)
+
+nums = [1, 1, 1, 2, 2, 3]
+
+console.log(removeDuplicates(nums))
+console.log(nums)
+
+nums = [0, 0, 1, 1, 1, 1, 2, 3, 3, 3, 3, 4]
+
+console.log(removeDuplicates(nums))
+console.log(nums)
