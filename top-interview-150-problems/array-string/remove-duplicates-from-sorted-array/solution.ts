@@ -1,23 +1,26 @@
 export {}
 
 function removeDuplicates(nums: number[]): number {
-  if (nums.length === 1) return 1
-  
-  let i = nums.length - 1
+  let i = 0 // idx tracking last unique number
+  let j = 1 // idx tracking nums
 
-  let mostRecentUniqueNum = nums[i]
-
-  for (i; i > 0; i--) { // iterate over each element in nums
-    if (nums[i - 1] === mostRecentUniqueNum) {  // if duplicate
-      nums.splice(i - 1, 1)  // remove duplicate
-    } else {  // if not duplicate
-      mostRecentUniqueNum = nums[i - 1] // update most recent unique number
+  while (j < nums.length) {
+    if (nums[i] === nums[j]) {
+      j++
+    } else {
+      nums[++i] = nums[j++]
     }
   }
 
-  return nums.length
-};
+  return i + 1
+}
 
-let nums = [1,2]
+let nums = [1, 2]
 
-console.dir(removeDuplicates(nums))
+console.log(removeDuplicates(nums))
+console.log(nums)
+
+nums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
+
+console.log(removeDuplicates(nums))
+console.log(nums)
