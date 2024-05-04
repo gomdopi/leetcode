@@ -7,35 +7,19 @@ function isSymmetric(root: TreeNode | null): boolean {
   // return isMirror(root.left, root.right)
 
   // iterative
-  let leftStack = [root.left]
-  let rightStack = [root.right]
+  let stack = [root.left, root.right]
 
-  while (leftStack.length > 0 || rightStack.length > 0) {
-    const leftNode = leftStack.pop()
-    const rightNode = rightStack.pop()
+  while (stack.length > 0) {
+    const rightNode = stack.pop()
+    const leftNode = stack.pop()
 
-    if (leftNode && rightNode) {
-      if (leftNode.val != rightNode.val) return false
+    if (!leftNode && !rightNode) continue
+    if (!leftNode || !rightNode || leftNode.val != rightNode.val) return false
 
-      if (leftNode.left && rightNode.right) {
-        leftStack.push(leftNode.left)
-        rightStack.push(rightNode.right)
-      } else if (!leftNode.left && !rightNode.right) {
-      } else {
-        return false
-      }
-
-      if (leftNode.right && rightNode.left) {
-        leftStack.push(leftNode.right)
-        rightStack.push(rightNode.left)
-      } else if (!leftNode.right && !rightNode.left) {
-      } else {
-        return false
-      }
-    } else if (!leftNode && !rightNode) {
-    } else {
-      return false
-    }
+    stack.push(leftNode.left)
+    stack.push(rightNode.right)
+    stack.push(leftNode.right)
+    stack.push(rightNode.left)
   }
 
   return true
