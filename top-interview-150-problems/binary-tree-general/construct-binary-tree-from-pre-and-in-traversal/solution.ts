@@ -1,47 +1,19 @@
 import TreeNode from '../TreeNode'
 
 function buildTree(preorder: number[], inorder: number[]): TreeNode | null {
-  // base cases
-  // empty tree
-  if (preorder.length === 0) return null
-
-  // tree with only root
-  if (preorder.length === 1) return new TreeNode(preorder[0])
-
-  // tree with only root and either left or right subtree
-  if (preorder.length === 2) {
-    if (preorder[0] === inorder[0]) {
-      // only right subtree
-      return new TreeNode(preorder[0], null, new TreeNode(preorder[1]))
-    } else {
-      // only left subtree
-      return new TreeNode(preorder[0], new TreeNode(preorder[1]))
-    }
-  }
-
-  // // tree with root and left and right subtrees with no subtrees below it
-  // if (preorder.length === 3) {
-  //   return new TreeNode(
-  //     preorder[0],
-  //     new TreeNode(inorder[0]),
-  //     new TreeNode(preorder[2])
-  //   )
-  // }
+  // base case
+  if (inorder.length === 0) return null
 
   // build root of tree
-  let root = new TreeNode(preorder[0])
+  let root = new TreeNode(preorder.shift())
 
   // determine inorder array of left and right subtrees
   const inorderRootIndex = inorder.indexOf(root.val)
   const inorderLeft = inorder.slice(0, inorderRootIndex)
   const inorderRight = inorder.slice(inorderRootIndex + 1)
 
-  // determine preorder array of left and right subtrees
-  const preorderLeft = preorder.slice(1, inorderLeft.length + 1)
-  const preorderRight = preorder.slice(inorderLeft.length + 1)
-
-  root.left = buildTree(preorderLeft, inorderLeft)
-  root.right = buildTree(preorderRight, inorderRight)
+  root.left = buildTree(preorder, inorderLeft)
+  root.right = buildTree(preorder, inorderRight)
 
   return root
 }
