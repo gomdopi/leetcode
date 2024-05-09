@@ -2,16 +2,17 @@ import TreeNode from '../TreeNode'
 
 function buildTree(preorder: number[], inorder: number[]): TreeNode | null {
   // base case
-  if (inorder.length === 0) return null
+  if (!inorder.length) return null
 
   // build root of tree
   let root = new TreeNode(preorder.shift())
 
   // determine inorder array of left and right subtrees
-  const inorderRootIndex = inorder.indexOf(root.val)
-  const inorderLeft = inorder.slice(0, inorderRootIndex)
-  const inorderRight = inorder.slice(inorderRootIndex + 1)
+  let rootIndex = inorder.indexOf(root.val)
+  let inorderLeft = inorder.slice(0, rootIndex)
+  let inorderRight = inorder.slice(rootIndex + 1)
 
+  // build left and right subtrees
   root.left = buildTree(preorder, inorderLeft)
   root.right = buildTree(preorder, inorderRight)
 
