@@ -1,24 +1,59 @@
 import TreeNode from '../TreeNode'
 
 function buildTree(inorder: number[], postorder: number[]): TreeNode | null {
-  // recursive
-  // base case
-  if (!inorder.length) return null
+  // // recursive
+  // // base case
+  // if (!inorder.length) return null
 
-  // get value of root
-  const rootVal = postorder.pop()
-  // find index of root
-  const rootIndex = inorder.indexOf(rootVal)
+  // // get value of root
+  // const rootVal = postorder.pop()
+  // // find index of root
+  // const rootIndex = inorder.indexOf(rootVal)
 
-  // calculate inorder array for left and right subtrees
-  const inorderLeft = inorder.slice(0, rootIndex)
-  const inorderRight = inorder.slice(rootIndex + 1)
+  // // calculate inorder array for left and right subtrees
+  // const inorderLeft = inorder.slice(0, rootIndex)
+  // const inorderRight = inorder.slice(rootIndex + 1)
 
-  return new TreeNode(
-    rootVal,
-    buildTree(inorderLeft, postorder.slice(0, inorderLeft.length)),
-    buildTree(inorderRight, postorder.slice(inorderLeft.length))
-  )
+  // return new TreeNode(
+  //   rootVal,
+  //   buildTree(inorderLeft, postorder.slice(0, inorderLeft.length)),
+  //   buildTree(inorderRight, postorder.slice(inorderLeft.length))
+  // )
+
+  // iterative
+  const n = postorder.length
+  let tree = new TreeNode(postorder[n - 1])
+  let postorderIdx = n - 2
+  let inorderIdx = n - 1
+
+  let parents: TreeNode[] = []
+  let curr = tree
+  while (postorderIdx >= 0) {
+    // while we haven't reach right most node
+    while (postorder[postorderIdx + 1] !== inorder[inorderIdx]) {
+      // add current node to "parents" since it is a local root
+      parents.push(curr)
+      // set right of current node to postorder value
+      curr.right = new TreeNode(postorder[postorderIdx--])
+      // set current node to node that was just built
+      curr = curr.right
+    }
+    // when we exit above loop we have finished local right subtree
+    inorderIdx--
+    while (
+      parents.length > 0 &&
+      parents[parents.length - 1].val === inorder[inorderIdx]
+    ) {
+      inorderIdx--
+      curr = parents.pop()
+    }
+    if (postorderIdx >= 0) {
+      curr.left = new TreeNode(postorder[postorderIdx--])
+      curr = curr.left
+    }
+  }
+
+  return tree
 }
 
 let inorder = [9, 3, 15, 20, 7]
