@@ -15,36 +15,76 @@ function buildTree(preorder: number[], inorder: number[]): TreeNode | null {
   // root.right = buildTree(preorder, inorderRight)
   // return root
 
-  // iterative
-  const n = preorder.length
-  let preIdx = 1
-  let inIdx = 0
+  // // iterative
+  // const n = preorder.length
+  // let preIdx = 1
+  // let inIdx = 0
 
-  let tree = new TreeNode(preorder[0])
-  let parents: TreeNode[] = []
-  let curr = tree
+  // let tree = new TreeNode(preorder[0])
+  // let parents: TreeNode[] = []
+  // let curr = tree
 
-  while (preIdx < n) {
-    while (preorder[preIdx - 1] !== inorder[inIdx]) {
-      parents.push(curr)
-      curr.left = new TreeNode(preorder[preIdx++])
-      curr = curr.left
+  // while (preIdx < n) {
+  //   while (preorder[preIdx - 1] !== inorder[inIdx]) {
+  //     parents.push(curr)
+  //     curr.left = new TreeNode(preorder[preIdx++])
+  //     curr = curr.left
+  //   }
+  //   inIdx++
+  //   while (
+  //     parents.length > 0 &&
+  //     parents[parents.length - 1].val === inorder[inIdx]
+  //   ) {
+  //     inIdx++
+  //     curr = parents.pop()
+  //   }
+  //   if (preIdx < n) {
+  //     curr.right = new TreeNode(preorder[preIdx++])
+  //     curr = curr.right
+  //   }
+  // }
+
+  // return tree
+
+  // iterative - morris-inspired, O(1) memory
+  let root: TreeNode = null
+  let top: TreeNode = null
+  let pop: TreeNode = null
+  let i = 0
+
+  for (const val of preorder) {
+    const node = new TreeNode(val)
+
+    // if "pop" is defined then we have switched to a right subtree
+    if (pop) {
+      pop.right = node
+      pop = null
     }
-    inIdx++
-    while (
-      parents.length > 0 &&
-      parents[parents.length - 1].val === inorder[inIdx]
-    ) {
-      inIdx++
-      curr = parents.pop()
+    // else if "top" is defined then we are iterating through a left subtree
+    else if (top) {
+      top.left = node
     }
-    if (preIdx < n) {
-      curr.right = new TreeNode(preorder[preIdx++])
-      curr = curr.right
+    // else we are at the root
+    else {
+      root = node
+    }
+
+    // temporarily have right of current node point to its parent
+    node.right = top
+    // set "top of stack" to current node
+    top = node // push
+
+    // if "top" is equal to current value of "inorder" traversal
+    while (top && top.val === inorder[i]) {
+      // then start right subtree
+      pop = top
+      top = pop.right
+      pop.right = null // pop
+      i++
     }
   }
 
-  return tree
+  return root
 }
 
 let preorder = [3, 9, 20, 15, 7]
