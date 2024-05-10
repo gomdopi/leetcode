@@ -25,19 +25,27 @@ function buildTree(preorder: number[], inorder: number[]): TreeNode | null {
   // let curr = tree
 
   // while (preIdx < n) {
+  //   // if previous preorder val not equal to inorder value
   //   while (preorder[preIdx - 1] !== inorder[inIdx]) {
+  //     // it is local root so add to "parents"
   //     parents.push(curr)
+  //     // left of current node is current preorder value
   //     curr.left = new TreeNode(preorder[preIdx++])
+  //     // set current node to current preoder value
   //     curr = curr.left
   //   }
+  //   // once we exit while loop right above we have just added locally leftmost node so increment inorder index
   //   inIdx++
+  //   // if there are any roots and the most recent root is equal to inorder value we've just finished the local roots left subtree
   //   while (
   //     parents.length > 0 &&
   //     parents[parents.length - 1].val === inorder[inIdx]
   //   ) {
+  //     // increment inorder index and set current node to the root of the local subtree
   //     inIdx++
   //     curr = parents.pop()
   //   }
+  //   // when we reach here we have dealth with any local roots and left subtrees so start right subtree
   //   if (preIdx < n) {
   //     curr.right = new TreeNode(preorder[preIdx++])
   //     curr = curr.right
