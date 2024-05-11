@@ -11,11 +11,9 @@ function connect(root: Node | null): Node | null {
   let q: Node[] = []
   q.push(root)
 
-  // while there are nodes
   while (q.length > 0) {
     const qLen = q.length
 
-    // add the subtrees of the nodes already present in the queue
     for (let i = 0; i < qLen; i++) {
       const node = q.shift()
 
@@ -27,7 +25,6 @@ function connect(root: Node | null): Node | null {
       }
     }
 
-    // connect the nodes that were just added
     for (let i = 0; i < q.length - 1; i++) {
       q[i].next = q[i + 1]
     }
