@@ -24,7 +24,7 @@ function flatten(root: TreeNode | null): void {
   // }
 }
 
-function helper(node: TreeNode | null): TreeNode | null {
+function helper(node: TreeNode | null): TreeNode {
   if (!node.left && !node.right) return node
 
   let temp = node.right
