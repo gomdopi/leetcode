@@ -4,22 +4,43 @@ function flatten(root: TreeNode | null): void {
   if (!root) return
 
   // recursive
+  helper(root)
 
-  // iterative
-  let curr = root
+  // // iterative
+  // let curr = root
 
-  while (curr) {
-    if (curr.left) {
-      let t = curr.left
-      while (t.right) {
-        t = t.right
-      }
-      t.right = curr.right
-      curr.right = curr.left
-      curr.left = null
+  // while (curr) {
+  //   if (curr.left) {
+  //     let t = curr.left
+  //     while (t.right) {
+  //       t = t.right
+  //     }
+  //     t.right = curr.right
+  //     curr.right = curr.left
+  //     curr.left = null
+  //   } else {
+  //     curr = curr.right
+  //   }
+  // }
+}
+
+function helper(node: TreeNode | null): TreeNode | null {
+  if (!node.left && !node.right) return node
+
+  let temp = node.right
+
+  if (node.left) {
+    let l = helper(node.left)
+    node.right = node.left
+    node.left = null
+    if (temp) {
+      l.right = temp
+      return helper(temp)
     } else {
-      curr = curr.right
+      return l
     }
+  } else {
+    return helper(temp)
   }
 }
 
