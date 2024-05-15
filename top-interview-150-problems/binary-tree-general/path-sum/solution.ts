@@ -3,56 +3,36 @@ import TreeNode from '../TreeNode'
 function hasPathSum(root: TreeNode | null, targetSum: number): boolean {
   if (!root) return false
 
-  // // recursive
-  // return helper(root, targetSum, root.val)
+  // recursive
+  if (!root.left && !root.right && root.val === targetSum) return true
 
-  // iterative
-  let stack: TreeNode[] = []
-  root.val = targetSum - root.val
-  stack.push(root)
+  return (
+    hasPathSum(root.left, targetSum - root.val) ||
+    hasPathSum(root.right, targetSum - root.val)
+  )
 
-  while (stack.length > 0) {
-    const node = stack.pop()
+  // // iterative
+  // let stack: TreeNode[] = []
+  // root.val = targetSum - root.val
+  // stack.push(root)
 
-    if (!node.left && !node.right && node.val === 0) return true
+  // while (stack.length > 0) {
+  //   const node = stack.pop()
 
-    if (node.left) {
-      node.left.val = node.val - node.left.val
-      stack.push(node.left)
-    }
+  //   if (!node.left && !node.right && node.val === 0) return true
 
-    if (node.right) {
-      node.right.val = node.val - node.right.val
-      stack.push(node.right)
-    }
-  }
+  //   if (node.left) {
+  //     node.left.val = node.val - node.left.val
+  //     stack.push(node.left)
+  //   }
 
-  return false
-}
+  //   if (node.right) {
+  //     node.right.val = node.val - node.right.val
+  //     stack.push(node.right)
+  //   }
+  // }
 
-function helper(
-  root: TreeNode | null,
-  targetSum: number,
-  currentSum: number
-): boolean {
-  if (!root.left && !root.right) {
-    if (currentSum === targetSum) {
-      return true
-    } else {
-      return false
-    }
-  }
-
-  if (root.left && root.right) {
-    return (
-      helper(root.left, targetSum, currentSum + root.left.val) ||
-      helper(root.right, targetSum, currentSum + root.right.val)
-    )
-  } else if (root.left) {
-    return helper(root.left, targetSum, currentSum + root.left.val)
-  } else {
-    return helper(root.right, targetSum, currentSum + root.right.val)
-  }
+  // return false
 }
 
 let root = new TreeNode(
