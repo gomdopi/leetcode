@@ -5,6 +5,8 @@ function hasPathSum(root: TreeNode | null, targetSum: number): boolean {
 
   // recursive
   return helper(root, targetSum, root.val)
+
+  // iterative
 }
 
 function helper(
