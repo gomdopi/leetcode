@@ -3,15 +3,39 @@ import TreeNode from '../TreeNode'
 function sumNumbers(root: TreeNode | null): number {
   if (!root) return 0
 
-  // recursive
-  let digits = ''
+  // // recursive
+  // let digits = ''
 
-  let rtlNumbers = helper(root, digits, [])
+  // let rtlNumbers = helper(root, digits, [])
 
+  // let sum = 0
+
+  // for (const n of rtlNumbers) {
+  //   sum += n
+  // }
+
+  // return sum
+
+  // iterative
+  let stack: TreeNode[] = []
   let sum = 0
+  stack.push(root)
 
-  for (const n of rtlNumbers) {
-    sum += n
+  while (stack.length > 0) {
+    const node = stack.pop()
+
+    if (!node.left && !node.right) {
+      sum += node.val
+    }
+
+    if (node.left) {
+      node.left.val = Number(node.val.toString() + node.left.val.toString())
+      stack.push(node.left)
+    }
+    if (node.right) {
+      node.right.val = Number(node.val.toString() + node.right.val.toString())
+      stack.push(node.right)
+    }
   }
 
   return sum
