@@ -3,10 +3,31 @@ import TreeNode from '../TreeNode'
 function hasPathSum(root: TreeNode | null, targetSum: number): boolean {
   if (!root) return false
 
-  // recursive
-  return helper(root, targetSum, root.val)
+  // // recursive
+  // return helper(root, targetSum, root.val)
 
   // iterative
+  let stack: TreeNode[] = []
+  root.val = targetSum - root.val
+  stack.push(root)
+
+  while (stack.length > 0) {
+    const node = stack.pop()
+
+    if (!node.left && !node.right && node.val === 0) return true
+
+    if (node.left) {
+      node.left.val = node.val - node.left.val
+      stack.push(node.left)
+    }
+
+    if (node.right) {
+      node.right.val = node.val - node.right.val
+      stack.push(node.right)
+    }
+  }
+
+  return false
 }
 
 function helper(
