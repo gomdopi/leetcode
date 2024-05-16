@@ -19,6 +19,7 @@ function sumNumbers(root: TreeNode | null): number {
   // iterative
   let stack: TreeNode[] = []
   let sum = 0
+
   stack.push(root)
 
   while (stack.length > 0) {
