@@ -1,19 +1,19 @@
 import TreeNode from '../TreeNode'
 
 function maxPathSum(root: TreeNode | null): number {
-  if (!root) {
-    return 0
-  }
+  if (!root) return 0
 
-  // recursive
-  let maxSum = root.val
+  let maxSum = -Infinity
 
   function helper(node: TreeNode | null): number {
     if (!node) return 0
 
     let l = helper(node.left)
     let r = helper(node.right)
+
+    // update max path sum if path only traverses the subtree
     maxSum = Math.max(maxSum, l + node.val + r)
+    // return max path possible including the local root
     return Math.max(0, Math.max(l, r) + node.val)
   }
 
