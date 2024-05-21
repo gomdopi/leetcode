@@ -11,10 +11,7 @@ function maxPathSum(root: TreeNode | null): number {
 
   //   let l = helper(node.left)
   //   let r = helper(node.right)
-
-  //   // update max path sum if path only traverses the subtree
-  //   maxSum = Math.max(maxSum, l + node.val + r)
-  //   // return max path possible including the local root
+  //   maxSum = Math.max(maxSum, l + r + node.val)
   //   return Math.max(0, Math.max(l, r) + node.val)
   // }
 
@@ -30,7 +27,6 @@ function maxPathSum(root: TreeNode | null): number {
 
     while (stack.length > 0) {
       const node = stack.pop()
-
       postOrder.push(node)
 
       if (node.left) {
@@ -44,13 +40,13 @@ function maxPathSum(root: TreeNode | null): number {
     return postOrder.reverse()
   }
 
-  const maxSumAtNode = new Map<TreeNode, number>()
+  let maxSumAtNode = new Map<TreeNode, number>()
   maxSumAtNode.set(null, 0)
   for (const node of getPostOrder(root)) {
     let l = Math.max(0, maxSumAtNode.get(node.left))
     let r = Math.max(0, maxSumAtNode.get(node.right))
     maxSum = Math.max(maxSum, l + r + node.val)
-    maxSumAtNode.set(node, node.val + Math.max(l, r))
+    maxSumAtNode.set(node, Math.max(l, r) + node.val)
   }
 
   return maxSum
