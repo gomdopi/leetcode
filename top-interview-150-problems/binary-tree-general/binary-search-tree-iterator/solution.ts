@@ -4,22 +4,23 @@ class BSTIterator {
   private nodes: TreeNode[] = []
 
   constructor(root: TreeNode | null) {
-    let cur: TreeNode = root
+    let curr: TreeNode = root
 
-    while (cur) {
-      console.log(`cur: ${cur}`)
-      if (!cur.left) {
-        this.nodes.push(cur)
-        cur = cur.right
+    while (curr) {
+      if (!curr.left) {
+        this.nodes.push(curr)
+        curr = curr.right
       } else {
-        let last = cur.left
+        let last = curr.left
+
         while (last.right) {
           last = last.right
         }
-        last.right = cur
-        const temp = cur.left
-        cur.left = null
-        cur = temp
+
+        let temp = curr.left
+        last.right = curr
+        curr.left = null
+        curr = temp
       }
     }
   }
