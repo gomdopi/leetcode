@@ -1,36 +1,32 @@
 import TreeNode from '../TreeNode'
 
 class BSTIterator {
-  private nodes: TreeNode[] = []
+  private stack: TreeNode[]
 
   constructor(root: TreeNode | null) {
-    let curr: TreeNode = root
+    this.stack = []
+    let node = root
 
-    while (curr) {
-      if (!curr.left) {
-        this.nodes.push(curr)
-        curr = curr.right
-      } else {
-        let last = curr.left
-
-        while (last.right) {
-          last = last.right
-        }
-
-        let temp = curr.left
-        last.right = curr
-        curr.left = null
-        curr = temp
-      }
+    while (node) {
+      this.stack.push(node)
+      node = node.left
     }
   }
 
   next(): number {
-    return this.nodes.shift().val
+    const curr = this.stack.pop()
+    let node = curr.right
+
+    while (node) {
+      this.stack.push(node)
+      node = node.left
+    }
+
+    return curr.val
   }
 
   hasNext(): boolean {
-    return this.nodes.length > 0
+    return this.stack.length > 0
   }
 }
 
@@ -47,3 +43,7 @@ let root = new TreeNode(
   new TreeNode(15, new TreeNode(9), new TreeNode(20))
 )
 let bstIterator = new BSTIterator(root)
+
+do {
+  console.log(bstIterator.next())
+} while (bstIterator.hasNext())
