@@ -3,7 +3,8 @@ import TreeNode from '../TreeNode'
 function countNodes(root: TreeNode | null): number {
   if (!root) return 0
 
-  let stack = [root]
+  // iterative
+  let stack: TreeNode[] = [root]
   let count = 0
 
   while (stack.length > 0) {
