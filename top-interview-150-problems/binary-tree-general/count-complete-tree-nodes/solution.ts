@@ -3,23 +3,26 @@ import TreeNode from '../TreeNode'
 function countNodes(root: TreeNode | null): number {
   if (!root) return 0
 
-  // iterative
-  let stack: TreeNode[] = [root]
-  let count = 0
+  // recursive
+  return countNodes(root.left) + countNodes(root.right) + 1
 
-  while (stack.length > 0) {
-    count++
-    const node = stack.pop()
+  // // iterative
+  // let stack: TreeNode[] = [root]
+  // let count = 0
 
-    if (node.left) {
-      stack.push(node.left)
-    }
-    if (node.right) {
-      stack.push(node.right)
-    }
-  }
+  // while (stack.length > 0) {
+  //   count++
+  //   const node = stack.pop()
 
-  return count
+  //   if (node.left) {
+  //     stack.push(node.left)
+  //   }
+  //   if (node.right) {
+  //     stack.push(node.right)
+  //   }
+  // }
+
+  // return count
 }
 
 let root = new TreeNode(
