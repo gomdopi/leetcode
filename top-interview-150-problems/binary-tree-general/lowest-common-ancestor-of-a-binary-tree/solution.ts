@@ -7,10 +7,10 @@ function lowestCommonAncestor(
 ): TreeNode | null {
   if (!root || p === root || q === root) return root
 
-  const left = lowestCommonAncestor(root.left, p, q)
-  const right = lowestCommonAncestor(root.right, p, q)
+  let l = lowestCommonAncestor(root.left, p, q)
+  let r = lowestCommonAncestor(root.right, p, q)
 
-  return left && right ? root : left || right
+  return l && r ? root : l || r
 }
 
 let p = new TreeNode(
