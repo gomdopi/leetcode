@@ -16,19 +16,22 @@ function solve(board: string[][]): void {
   for (let i = 1; i < m - 1; i++) {
     for (let j = 1; j < n - 1; j++) {
       if (board[i][j] === 'X' || checkedCoords[i][j]) continue
-      console.log(i, j)
-      console.table(checkedCoords)
 
       // add to "checkedCoords"
       checkedCoords[i][j] = true
-      console.table(checkedCoords)
 
+      let surrounded = true
       let stack: number[][] = [[i, j]]
       let modStack: number[][] = [[i, j]]
 
       // find all connecting 'O's
       while (stack.length > 0) {
         const [x, y] = stack.pop()
+
+        // if at border then all connected 'O's are not surrounded
+        if (surrounded && (x === 0 || x === m - 1 || y === 0 || y === n - 1)) {
+          surrounded = false
+        }
 
         if (board[x + 1]?.[y] === 'O' && !checkedCoords[x + 1][y]) {
           checkedCoords[x + 1][y] = true
@@ -52,16 +55,8 @@ function solve(board: string[][]): void {
         }
       }
 
-      // check if surrounded
-      for (let i = 0; i < modStack.length; i++) {
-        const [x, y] = modStack[i]
-
-        // if either "x" or "y" is at border
-        if (x === 0 || x === m - 1 || y === 0 || y === n - 1) {
-          modStack = []
-          break
-        }
-      }
+      // if not surrounded skip updating coords in "modStack"
+      if (!surrounded) continue
 
       // update coords in "modStack"
       while (modStack.length > 0) {
@@ -69,7 +64,6 @@ function solve(board: string[][]): void {
 
         board[x][y] = 'X'
       }
-      console.table(board)
     }
   }
 }
@@ -81,7 +75,7 @@ let board = [
   ['X', 'O', 'X', 'X']
 ]
 solve(board)
-console.log(board)
+console.table(board)
 
 board = [
   ['O', 'X', 'X', 'O', 'X'],
@@ -91,7 +85,7 @@ board = [
   ['X', 'X', 'O', 'X', 'O']
 ]
 solve(board)
-console.log(board)
+console.table(board)
 
 board = [
   ['X', 'O', 'X'],
@@ -99,7 +93,7 @@ board = [
   ['X', 'O', 'X']
 ]
 solve(board)
-console.log(board)
+console.table(board)
 
 board = [
   ['O', 'X', 'O', 'X', 'O', 'X', 'O'],
