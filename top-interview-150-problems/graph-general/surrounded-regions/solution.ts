@@ -7,63 +7,59 @@ function solve(board: string[][]): void {
   const m = board.length
   const n = board[0].length
 
-  let checkedCoords: boolean[][] = Array.from({ length: m }, () =>
-    Array(n).fill(false)
-  )
+  // recursive
+  function capture(row: number, col: number): void {
+    if (row < 0 || row >= m || col < 0 || col >= n || board[row][col] !== 'O')
+      return
 
-  // iterative
-  // can skip edges since any 'O's on the border is not surrounded by definition
-  for (let i = 1; i < m - 1; i++) {
-    for (let j = 1; j < n - 1; j++) {
-      if (board[i][j] === 'X' || checkedCoords[i][j]) continue
+    board[row][col] = 'U'
+    capture(row + 1, col)
+    capture(row - 1, col)
+    capture(row, col + 1)
+    capture(row, col - 1)
+  }
 
-      // add to "checkedCoords"
-      checkedCoords[i][j] = true
+  // just check border for 'O's, capture will deal with all connected 'O's
+  // top
+  for (let i = 0; i < n; i++) {
+    if (board[0][i] !== 'O') continue
 
-      let surrounded = true
-      let stack: number[][] = [[i, j]]
-      let modStack: number[][] = [[i, j]]
+    capture(0, i)
+  }
+  // bot
+  for (let i = 0; i < n; i++) {
+    if (board[m - 1][i] !== 'O') continue
 
-      // find all connecting 'O's
-      while (stack.length > 0) {
-        const [x, y] = stack.pop()
+    capture(m - 1, i)
+  }
+  // left
+  for (let i = 0; i < m; i++) {
+    if (board[i][0] !== 'O') continue
 
-        // if at border then all connected 'O's are not surrounded
-        if (surrounded && (x === 0 || x === m - 1 || y === 0 || y === n - 1)) {
-          surrounded = false
-        }
+    capture(i, 0)
+  }
+  // right
+  for (let i = 0; i < m; i++) {
+    if (board[i][n - 1] !== 'O') continue
 
-        if (board[x + 1]?.[y] === 'O' && !checkedCoords[x + 1][y]) {
-          checkedCoords[x + 1][y] = true
-          stack.push([x + 1, y])
-          modStack.push([x + 1, y])
-        }
-        if (board[x - 1]?.[y] === 'O' && !checkedCoords[x - 1][y]) {
-          checkedCoords[x - 1][y] = true
-          stack.push([x - 1, y])
-          modStack.push([x - 1, y])
-        }
-        if (board[x]?.[y + 1] === 'O' && !checkedCoords[x][y + 1]) {
-          checkedCoords[x][y + 1] = true
-          stack.push([x, y + 1])
-          modStack.push([x, y + 1])
-        }
-        if (board[x]?.[y - 1] === 'O' && !checkedCoords[x][y - 1]) {
-          checkedCoords[x][y - 1] = true
-          stack.push([x, y - 1])
-          modStack.push([x, y - 1])
-        }
-      }
+    capture(i, n - 1)
+  }
 
-      // if not surrounded skip updating coords in "modStack"
-      if (!surrounded) continue
+  // update all 'O's to 'X'
+  for (let i = 0; i < m; i++) {
+    for (let j = 0; j < n; j++) {
+      if (board[i][j] !== 'O') continue
 
-      // update coords in "modStack"
-      while (modStack.length > 0) {
-        const [x, y] = modStack.pop()
+      board[i][j] = 'X'
+    }
+  }
 
-        board[x][y] = 'X'
-      }
+  // update all 'U's back to 'O'
+  for (let i = 0; i < m; i++) {
+    for (let j = 0; j < n; j++) {
+      if (board[i][j] !== 'U') continue
+
+      board[i][j] = 'O'
     }
   }
 }
