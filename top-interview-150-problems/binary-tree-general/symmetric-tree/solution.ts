@@ -1,4 +1,4 @@
-import TreeNode from '../TreeNode'
+import TreeNode from '../../../classes/TreeNode'
 
 function isSymmetric(root: TreeNode | null): boolean {
   if (!root) return true

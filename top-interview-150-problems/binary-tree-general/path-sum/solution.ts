@@ -1,4 +1,4 @@
-import TreeNode from '../TreeNode'
+import TreeNode from '../../../classes/TreeNode'
 
 function hasPathSum(root: TreeNode | null, targetSum: number): boolean {
   if (!root) return false

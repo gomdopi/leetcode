@@ -1,4 +1,4 @@
-import { Node } from '../TreeNode'
+import { Node } from '../../../classes/TreeNode'
 
 function connect(root: Node | null): Node | null {
   if (!root) return null

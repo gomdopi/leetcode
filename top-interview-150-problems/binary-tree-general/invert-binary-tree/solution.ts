@@ -1,4 +1,4 @@
-import TreeNode from '../TreeNode'
+import TreeNode from '../../../classes/TreeNode'
 
 function invertTree(root: TreeNode | null): TreeNode | null {
   if (!root) return null

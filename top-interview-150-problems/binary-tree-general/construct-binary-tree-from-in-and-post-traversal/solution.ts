@@ -1,4 +1,4 @@
-import TreeNode from '../TreeNode'
+import TreeNode from '../../../classes/TreeNode'
 
 function buildTree(inorder: number[], postorder: number[]): TreeNode | null {
   // // recursive

@@ -1,4 +1,4 @@
-import TreeNode from '../TreeNode'
+import TreeNode from '../../../classes/TreeNode'
 
 function sumNumbers(root: TreeNode | null): number {
   if (!root) return 0
